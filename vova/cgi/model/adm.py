@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 import query as q
 import MySQLdb
+import ConfigParser
 
 class AdminModel(object):
     def __init__(self):
-        self.db=MySQLdb.connect(user='user', passwd='123456', db='db_cafe')   
+        config = ConfigParser.SafeConfigParser()
+        config.read('conf')
+
+        db = config.get('mysql', 'db')
+        user = config.get('mysql', 'user')
+        passwd = config.get('mysql', 'passwd')
+
+        self.db=MySQLdb.connect(user=user, passwd=passwd, db=db)
         self.cur = self.db.cursor()
         pass
 
@@ -22,7 +30,8 @@ class AdminModel(object):
         users.insert(0, columns)
         return users
 
-    def addUser(self, fn, ln, lg, pw, r, tel):
+    def addUser(self, fn, ln, lg, r, tel):
+        pw = '1234'
         query = q.insert(fn, ln, lg, pw, r, tel)
         self.cur.execute(query)
 

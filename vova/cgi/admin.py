@@ -13,7 +13,7 @@ def adduser(model, **params):
 	return model.getAllUsers()
 
 def deluser(model, **params):
-	model.delUser(params['id'].value)
+	model.delUser(params['id'])
 	model.commit()
 	return model.getAllUsers()
 
@@ -28,8 +28,24 @@ action = {
 		'all' : getall
 		}
 
+def draw(view, data):
+	view.draw(data)
+
+def redirect(view, data):
+	"""docstring for redirect"""
+	view.redirect()
+
+response = {
+		'add' : redirect,
+		'edit' : redirect,
+		'del' : redirect,
+		'search' : draw,
+		'all' : draw
+		}
+
 view = AdmHtmlView()
-func = action[view.gettype()]
+qtype = view.gettype()
+func = action[qtype]
 model = AdminModel()
-users = func(model, **view.getparams())
-view.draw(users)
+data = func(model, **view.getparams())
+response[qtype](view, data)

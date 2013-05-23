@@ -14,6 +14,14 @@ def search(pattern):
     pattern = '%'+pattern+'%'
     return search % ((pattern,) * 5)
 
+def role(login, pw):
+    search = """
+    SELECT role_name
+    FROM tbl_users INNER JOIN tbl_roles ON tbl_users.user_role = tbl_roles.id_role
+    WHERE user_login = '%s'
+    """
+    return search % login
+
 def insert(fn, ln, lg, pw, r, tel):
     q_role = "select id_role from tbl_roles where role_name = '%s'" % r
     return """

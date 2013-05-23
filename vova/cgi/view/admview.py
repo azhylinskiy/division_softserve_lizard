@@ -41,6 +41,14 @@ class AdmHtmlView(object):
 		"""docstring for getparams"""
 		return self._params.copy()
 
+	def redirect(self):
+		"""Redirect to main page"""
+		ipaddr = socket.gethostbyname(socket.gethostname())
+		baseref = "http://%s/cgi-bin/admin.py" % ipaddr
+		#print "Status: 303 See other"
+		print "Location: " + baseref
+		print
+
 	def draw(self, users):
 		print 'Content-type: text/html\n\n'
 
