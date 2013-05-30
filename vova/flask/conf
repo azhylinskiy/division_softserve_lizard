@@ -1,0 +1,4 @@
+[mysql]
+db=db_cafe
+user=user
+passwd=123456
