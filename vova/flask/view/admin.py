@@ -41,19 +41,11 @@ class AdmHtmlView(object):
 		"""docstring for getparams"""
 		return self._params.copy()
 
-	def redirect(self):
-		"""Redirect to main page"""
-		ipaddr = socket.gethostbyname(socket.gethostname())
-		baseref = "http://%s/cgi-bin/admin.py" % ipaddr
-		#print "Status: 303 See other"
-		print "Location: " + baseref
-		print
-
 	def draw(self, users):
-		print 'Content-type: text/html\n\n'
+		#print 'Content-type: text/html\n\n'
 
 		ipaddr = socket.gethostbyname(socket.gethostname())
-		baseref = 'http://%s/cgi-bin/admin.py' % ipaddr
+		baseref = 'http://%s:5000/' % ipaddr
 
 		output = ''
 		output += """
@@ -76,11 +68,10 @@ class AdmHtmlView(object):
 		</form>
 		"""
 		output += html.tr(addform)
-		baseref
 		for user in users[1:]:
-			ref = baseref + '?del=%d' % user[1]
+			ref = baseref + 'udel?id=%d' % user[1]
 			user += html.a(ref, 'del'),
 			output += html.tr("<td>" + "</td><td>".join([str(x) for x in user]) + "</td>")
 	 
-		print html.doc(html.table(output))
+		return html.doc(html.table(output))
 
